@@ -1,0 +1,28 @@
+.word-container {
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+}
+
+.mod-buttons {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+
+    button {
+        margin: 0 30px;
+        padding: 40px;
+        font-size: 3rem;
+        border-radius: 15px;
+    }
+
+    .approve {
+        background-color: #95f590;
+    }
+
+    .reject {
+        background-color: #f58078;
+    }
+}
