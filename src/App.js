@@ -1,6 +1,6 @@
 import { Switch, Route } from "react-router-dom";
 
-import GameHome from "./components/game/GameHome";
+import GameContainer from "./components/game/GameContainer";
 import ModerationPage from "./components/moderation/ModerationPage";
 
 const App = () => {
@@ -9,7 +9,7 @@ const App = () => {
       <Switch>
         <Route path="/moderation" component={ModerationPage} />
 
-        <Route path="/" exact component={GameHome} />
+        <Route path="/play" exact component={GameContainer} />
       </Switch>
     </div>
   );
