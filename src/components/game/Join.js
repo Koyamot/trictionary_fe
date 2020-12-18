@@ -1,15 +1,19 @@
 import { useState } from "react";
 import randomize from "randomatic";
 
+const intitialUsername = localStorage.getItem("username")
+  ? localStorage.getItem("username")
+  : `guest#${randomize("0", 4)}`;
+
 const Join = (props) => {
-  const [username, setUsername] = useState(`guest#${randomize("0", 4)}`);
+  const [username, setUsername] = useState(intitialUsername);
   const [joinCode, setJoinCode] = useState("");
   const { socket } = props;
 
   const handleUsernameChange = (e) => {
     const { value } = e.target;
-
     setUsername(value);
+    localStorage.setItem("username", value);
   };
 
   const handleJoinCodeChange = (e) => {
