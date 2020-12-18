@@ -1,12 +1,10 @@
-import socketIOClient from "socket.io-client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import randomize from "randomatic";
 
-const socket = socketIOClient(process.env.REACT_APP_API_URL);
-
-const GameHome = () => {
+const Join = (props) => {
   const [username, setUsername] = useState(`guest#${randomize("0", 4)}`);
   const [joinCode, setJoinCode] = useState("");
+  const { socket } = props;
 
   const handleUsernameChange = (e) => {
     const { value } = e.target;
@@ -29,19 +27,8 @@ const GameHome = () => {
     socket.emit("join lobby", username, joinCode);
   };
 
-  useEffect(() => {
-    socket.on("lobby created", (msg) => {
-      console.log(msg);
-    });
-
-    socket.on("join lobby", (msg) => {
-      console.log(msg);
-    });
-  }, []);
-
   return (
-    <div className="game-home-container">
-      <h1>Let's play!</h1>
+    <div className="join-page">
       <label htmlFor="username">Name:</label>
       <input
         id="username"
@@ -66,4 +53,4 @@ const GameHome = () => {
   );
 };
 
-export default GameHome;
+export default Join;
