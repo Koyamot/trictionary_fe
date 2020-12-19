@@ -52,6 +52,23 @@ const Lobby = (props) => {
     return shuffle(defs);
   };
 
+  const calculateGuesses = () => {
+    let votes = [];
+    gameState.guesses.forEach((guess) => {
+      let voter = gameState.players.find(
+        (player) => player.id === guess.player
+      );
+      let votee = gameState.players.find((player) => player.id === guess.guess);
+      if (!votee) {
+        votee = { username: "correct answer" };
+      }
+
+      votes.push(<li>{`${voter.username} voted for ${votee.username}`}</li>);
+    });
+
+    return votes;
+  };
+
   useEffect(() => {
     if (gameState && gameState.guessing) {
       setDefinitions(generateRandomOrderedDefinitions());
@@ -63,83 +80,105 @@ const Lobby = (props) => {
   }, [gameState]);
 
   return (
-    <div className="lobby">
-      <h3>Lobby Code: {gameState.lobbyCode}</h3>
-      <div className="players-container">
-        <h3>Players</h3>
-        <ul className="players-list">
-          {gameState.players.map((player) => {
-            return (
-              <li
-                key={player.id}
-                className={
-                  player.definition
-                    ? "player submitted"
-                    : "player not-submitted"
-                }
-              >
-                {player.username}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      {isHost && !gameState.started ? (
-        <button onClick={handleStartGame}>Start Game</button>
-      ) : (
-        !gameState.started && <p>Waiting for host to start game...</p>
-      )}
-      {isHost && gameState.started && !gameState.guessing && (
-        <button onClick={handleStartGuessing}>Start guessing</button>
-      )}
-      {gameState && gameState.started && (
-        <>
-          <div className="word-container">
-            <h2 className="word">{gameState.word}</h2>
-          </div>
-          {!submitted && (
-            <form onSubmit={handleSubmit}>
-              <textarea
-                name="definition"
-                placeholder="Enter your definition here"
-                value={definition}
-                onChange={handleDefinitionChange}
-              />
-              <button>Submit</button>
-            </form>
-          )}
-          {gameState && gameState.started && gameState.guessing && !guessed && (
-            <div className="definitions-container">
-              <ul className="definitions">
-                {definitions.map((def) => {
-                  return (
-                    <li
-                      key={def.id}
-                      id={def.id}
-                      className={
-                        currentSelection === def.id
-                          ? "definition selected"
-                          : "definition"
-                      }
-                      onClick={handleSelect}
-                    >
-                      {def.definition}
-                    </li>
-                  );
-                })}
-              </ul>
-              <button disabled={!currentSelection} onClick={handleGuess}>
-                Guess
-              </button>
+    <div className="container">
+      <div className="game-body">
+        <h3>Lobby Code: {gameState.lobbyCode}</h3>
+        <div className="players-container">
+          <h3>Players</h3>
+          <ul className="players-list">
+            {gameState.players.map((player) => {
+              return (
+                <li
+                  key={player.id}
+                  className={
+                    player.definition
+                      ? "player submitted"
+                      : "player not-submitted"
+                  }
+                >
+                  {player.username}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        {isHost && !gameState.started ? (
+          <button onClick={handleStartGame}>Start Game</button>
+        ) : (
+          !gameState.started && <p>Waiting for host to start game...</p>
+        )}
+        {isHost && gameState.started && !gameState.guessing && (
+          <button onClick={handleStartGuessing}>Start guessing</button>
+        )}
+        {gameState && gameState.started && (
+          <>
+            <div className="word-container">
+              <h2 className="word">{gameState.word}</h2>
             </div>
-          )}
-          {gameState &&
-            gameState.started &&
-            gameState.guessing &&
-            guessed &&
-            !gameState.completed && <p>Waiting for everyone to guess...</p>}
-        </>
-      )}
+            {!submitted && (
+              <form onSubmit={handleSubmit}>
+                <textarea
+                  name="definition"
+                  placeholder="Enter your definition here"
+                  value={definition}
+                  onChange={handleDefinitionChange}
+                />
+                <button>Submit</button>
+              </form>
+            )}
+            {gameState && gameState.started && gameState.guessing && !guessed && (
+              <div className="definitions-container">
+                <ul className="definitions">
+                  {definitions.map((def) => {
+                    return (
+                      <li
+                        key={def.id}
+                        id={def.id}
+                        className={
+                          currentSelection === def.id
+                            ? "definition selected"
+                            : "definition"
+                        }
+                        onClick={handleSelect}
+                      >
+                        {def.definition}
+                      </li>
+                    );
+                  })}
+                </ul>
+                <button disabled={!currentSelection} onClick={handleGuess}>
+                  Guess
+                </button>
+              </div>
+            )}
+            {gameState &&
+              gameState.started &&
+              gameState.guessing &&
+              guessed &&
+              !gameState.completed && <p>Waiting for everyone to guess...</p>}
+            {gameState && gameState.completed && (
+              <div className="results">
+                <div className="points">
+                  <h3>Points</h3>
+                  <ul>
+                    {gameState.players.map((player) => {
+                      return (
+                        <li
+                          key={player.id}
+                        >{`${player.username}: ${player.points} points`}</li>
+                      );
+                    })}
+                  </ul>
+                </div>
+                <div className="voting-results">
+                  <h3>Guesses</h3>
+                  <ul>{calculateGuesses()}</ul>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };
