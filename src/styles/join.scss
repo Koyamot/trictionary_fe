@@ -1,0 +1,16 @@
+.join-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2.8rem;
+
+    div {
+        margin: 20px 0;
+    }
+
+    button {
+        margin: 0 15px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+}

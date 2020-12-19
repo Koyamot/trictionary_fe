@@ -10,6 +10,12 @@
     color: green;
 }
 
+.definitions-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .definitions {
     display: flex;
     flex-direction: column;
@@ -20,6 +26,8 @@
         margin: 10px;
         cursor: pointer;
         padding: 10px;
+        list-style-type: decimal;
+        width: 80%;
     }
 
     .selected {
@@ -27,3 +35,48 @@
     }
 }
 
+.container {
+    display: flex;
+    padding: 0 50px;
+
+    .players-container {
+        width: 25%;
+        padding: 20px;
+        border-right: 3px dashed black;
+    }
+
+    .game-body {
+        width: 75%;
+        padding: 25px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        textarea {
+            padding: 6px;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .definition-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+}
+
+.results {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+
+    h3 {
+        text-decoration: underline;
+    }
+
+    ul {
+        font-size: 2.2rem;
+        margin-left: -20px;
+    }
+}
