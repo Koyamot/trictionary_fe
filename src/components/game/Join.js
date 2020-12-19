@@ -33,19 +33,21 @@ const Join = (props) => {
 
   return (
     <div className="join-page">
-      <label htmlFor="username">Name:</label>
-      <input
-        id="username"
-        name="username"
-        value={username}
-        onChange={handleUsernameChange}
-      />
+      <div className="username-input">
+        <label htmlFor="username">Name:&nbsp;</label>
+        <input
+          id="username"
+          name="username"
+          value={username}
+          onChange={handleUsernameChange}
+        />
+      </div>
       <div className="join-buttons">
         <button onClick={handleCreateLobby}>Create New Lobby</button>
         <button onClick={handleJoinLobby}>Join A Lobby</button>
       </div>
       <div className="join-code-input">
-        <label htmlFor="joinCode">Join Code:</label>
+        <label htmlFor="joinCode">Join Code:&nbsp;</label>
         <input
           id="joinCode"
           name="joinCode"

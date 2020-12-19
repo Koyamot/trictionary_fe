@@ -81,49 +81,51 @@ const Lobby = (props) => {
 
   return (
     <div className="container">
-      <div className="game-body">
+      <div className="players-container">
         <h3>Lobby Code: {gameState.lobbyCode}</h3>
-        <div className="players-container">
-          <h3>Players</h3>
-          <ul className="players-list">
-            {gameState.players.map((player) => {
-              return (
-                <li
-                  key={player.id}
-                  className={
-                    player.definition
-                      ? "player submitted"
-                      : "player not-submitted"
-                  }
-                >
-                  {player.username}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <h3>Players:</h3>
+        <ul className="players-list">
+          {gameState.players.map((player) => {
+            return (
+              <li
+                key={player.id}
+                className={
+                  player.definition
+                    ? "player submitted"
+                    : "player not-submitted"
+                }
+              >
+                {player.username}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div className="game-body">
         {isHost && !gameState.started ? (
           <button onClick={handleStartGame}>Start Game</button>
         ) : (
           !gameState.started && <p>Waiting for host to start game...</p>
         )}
-        {isHost && gameState.started && !gameState.guessing && (
+        {/* {isHost && gameState.started && !gameState.guessing && (
           <button onClick={handleStartGuessing}>Start guessing</button>
-        )}
+        )} */}
         {gameState && gameState.started && (
           <>
             <div className="word-container">
               <h2 className="word">{gameState.word}</h2>
             </div>
             {!submitted && (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className="definition-form">
                 <textarea
                   name="definition"
                   placeholder="Enter your definition here"
                   value={definition}
                   onChange={handleDefinitionChange}
+                  cols="60"
+                  rows="5"
                 />
-                <button>Submit</button>
+                <button id="submit-definition">Submit</button>
               </form>
             )}
             {gameState && gameState.started && gameState.guessing && !guessed && (
@@ -146,7 +148,11 @@ const Lobby = (props) => {
                     );
                   })}
                 </ul>
-                <button disabled={!currentSelection} onClick={handleGuess}>
+                <button
+                  disabled={!currentSelection}
+                  onClick={handleGuess}
+                  className="guess-button"
+                >
                   Guess
                 </button>
               </div>
