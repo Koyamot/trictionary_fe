@@ -16,9 +16,8 @@ const Lobby = (props) => {
   };
 
   const handleStartGame = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     socket.emit("start game", gameState.lobbyCode);
-    console.log("starting game");
   };
 
   const handleStartGuessing = (e) => {
@@ -54,7 +53,9 @@ const Lobby = (props) => {
   };
 
   useEffect(() => {
-    setDefinitions(generateRandomOrderedDefinitions());
+    if (gameState && gameState.guessing) {
+      setDefinitions(generateRandomOrderedDefinitions());
+    }
   }, [gameState.guessing]); //eslint-disable-line
 
   return (
