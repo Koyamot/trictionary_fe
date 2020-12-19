@@ -58,6 +58,10 @@ const Lobby = (props) => {
     }
   }, [gameState.guessing]); //eslint-disable-line
 
+  useEffect(() => {
+    console.log(gameState);
+  }, [gameState]);
+
   return (
     <div className="lobby">
       <h3>Lobby Code: {gameState.lobbyCode}</h3>
