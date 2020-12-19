@@ -18,6 +18,7 @@ const Lobby = (props) => {
   const handleStartGame = (e) => {
     e.preventDefault();
     socket.emit("start game", gameState.lobbyCode);
+    console.log("starting game");
   };
 
   const handleStartGuessing = (e) => {
