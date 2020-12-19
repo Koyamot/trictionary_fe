@@ -1,0 +1,28 @@
+.player {
+    font-size: 3rem;
+}
+
+.not-submitted {
+    color: red;
+}
+
+.submitted {
+    color: green;
+}
+
+.definitions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .definition {
+        font-size: 2.6rem;
+        margin: 10px;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .selected {
+        border: 3px solid black;
+    }
+}
