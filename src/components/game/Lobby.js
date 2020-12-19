@@ -54,7 +54,7 @@ const Lobby = (props) => {
 
   useEffect(() => {
     setDefinitions(generateRandomOrderedDefinitions());
-  }, [gameState.guessing]);
+  }, [gameState.guessing]); //eslint-disable-line
 
   return (
     <div className="lobby">
