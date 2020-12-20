@@ -20,10 +20,10 @@ const Lobby = (props) => {
     socket.emit("start game", gameState.lobbyCode);
   };
 
-  const handleStartGuessing = (e) => {
-    e.preventDefault();
-    socket.emit("start guessing", gameState.lobbyCode);
-  };
+  // const handleStartGuessing = (e) => {
+  //   e.preventDefault();
+  //   socket.emit("start guessing", gameState.lobbyCode);
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
