@@ -35,7 +35,6 @@ const Lobby = (props) => {
 
   const handleSelect = (e) => {
     const { id } = e.target;
-    console.log(id);
     setCurrentSelection(id);
   };
 
@@ -66,7 +65,11 @@ const Lobby = (props) => {
 
       voter &&
         votee &&
-        votes.push(<li>{`${voter.username} voted for ${votee.username}`}</li>);
+        votes.push(
+          <li
+            key={voter.username}
+          >{`${voter.username} voted for ${votee.username}`}</li>
+        );
     });
 
     return votes;
@@ -77,10 +80,6 @@ const Lobby = (props) => {
       setDefinitions(generateRandomOrderedDefinitions());
     }
   }, [gameState.guessing]); //eslint-disable-line
-
-  useEffect(() => {
-    console.log(gameState);
-  }, [gameState]);
 
   return (
     <div className="container">
