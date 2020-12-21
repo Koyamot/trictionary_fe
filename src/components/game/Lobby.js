@@ -63,7 +63,9 @@ const Lobby = (props) => {
         votee = { username: "correct answer" };
       }
 
-      votes.push(<li>{`${voter.username} voted for ${votee.username}`}</li>);
+      voter &&
+        votee &&
+        votes.push(<li>{`${voter.username} voted for ${votee.username}`}</li>);
     });
 
     return votes;
