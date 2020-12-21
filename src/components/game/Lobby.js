@@ -20,10 +20,11 @@ const Lobby = (props) => {
     socket.emit("start game", gameState.lobbyCode);
   };
 
-  // const handleStartGuessing = (e) => {
-  //   e.preventDefault();
-  //   socket.emit("start guessing", gameState.lobbyCode);
-  // };
+  const handleEnterKey = (e) => {
+    if (e.which === 13 && e.shiftKey === false) {
+      handleSubmit(e);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -124,6 +125,7 @@ const Lobby = (props) => {
                   placeholder="Enter your definition here"
                   value={definition}
                   onChange={handleDefinitionChange}
+                  onKeyPress={handleEnterKey}
                   cols="60"
                   rows="5"
                 />
