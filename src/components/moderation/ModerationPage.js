@@ -22,8 +22,14 @@ const ModerationPage = () => {
   };
 
   const approve = (e) => {
+    const approvedWord = {
+      ...word,
+      moderated: true,
+      approved: true,
+    };
+
     e.preventDefault();
-    apiPut(`/api/words/${word.id}/approve`)
+    apiPut(`/api/words/${word.id}`, approvedWord)
       .then(() => {
         fetchWord();
       })
@@ -43,6 +49,14 @@ const ModerationPage = () => {
       });
   };
 
+  const handleDefinitionChange = (e) => {
+    const { value } = e.target;
+    setWord({
+      ...word,
+      definition: value,
+    });
+  };
+
   useEffect(() => {
     fetchWord();
   }, []);
@@ -55,7 +69,14 @@ const ModerationPage = () => {
     <div className="page-container">
       <div className="word-container">
         <h1>{word.word}</h1>
-        <h3>{word.definition}</h3>
+        <textarea
+          name="definition"
+          placeholder="Enter your definition here"
+          value={word.definition}
+          onChange={handleDefinitionChange}
+          cols="60"
+          rows="5"
+        />
       </div>
       <div className="mod-buttons">
         <button className="reject" onClick={reject}>
