@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 const shuffle = require("shuffle-array");
 
 const Lobby = (props) => {
-  const { gameState, socket } = props;
+  const { gameState, socket, setGameState } = props;
   const [definition, setDefinition] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [definitions, setDefinitions] = useState([]);
@@ -44,6 +44,11 @@ const Lobby = (props) => {
     setGuessed(true);
   };
 
+  const handlePlayAgain = (e) => {
+    e.preventDefault();
+    socket.emit("play again", gameState.lobbyCode);
+  };
+
   const generateRandomOrderedDefinitions = () => {
     let defs = gameState.players.map((player) => {
       return { id: player.id, definition: player.definition };
@@ -80,6 +85,17 @@ const Lobby = (props) => {
       setDefinitions(generateRandomOrderedDefinitions());
     }
   }, [gameState.guessing]); //eslint-disable-line
+
+  useEffect(() => {
+    socket.on("play again", (newGameState) => {
+      setGameState(newGameState);
+      setSubmitted(false);
+      setDefinitions([]);
+      setDefinition("");
+      setGuessed(false);
+      setCurrentSelection(null);
+    });
+  }, []); //eslint-disable-line
 
   return (
     <div className="container">
@@ -178,6 +194,9 @@ const Lobby = (props) => {
                       );
                     })}
                   </ul>
+                  {isHost && (
+                    <button onClick={handlePlayAgain}>Play again</button>
+                  )}
                 </div>
                 <div className="voting-results">
                   <h3>Guesses</h3>
