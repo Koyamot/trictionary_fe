@@ -1,5 +1,6 @@
 .player {
     font-size: 3rem;
+    padding-left: 5px;
 }
 
 .not-submitted {
@@ -8,6 +9,11 @@
 
 .submitted {
     color: green;
+}
+
+.me {
+    background-color: lightblue;
+    padding-left: 5px;
 }
 
 .definitions-container {
