@@ -109,7 +109,11 @@ const Lobby = (props) => {
                 key={player.id}
                 className={
                   player.definition
-                    ? "player submitted"
+                    ? player.id === socket.id
+                      ? "player submitted me"
+                      : "player submitted"
+                    : player.id === socket.id
+                    ? "player not-submitted me"
                     : "player not-submitted"
                 }
               >
