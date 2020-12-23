@@ -19,7 +19,13 @@ const GameContainer = () => {
     <div className="game-home-container">
       <h1>Let's play!</h1>
       {!gameState && <Join socket={socket} />}
-      {gameState && <Lobby socket={socket} gameState={gameState} />}
+      {gameState && (
+        <Lobby
+          socket={socket}
+          gameState={gameState}
+          setGameState={setGameState}
+        />
+      )}
     </div>
   );
 };
