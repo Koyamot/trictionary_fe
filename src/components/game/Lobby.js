@@ -81,10 +81,10 @@ const Lobby = (props) => {
   };
 
   useEffect(() => {
-    if (gameState && gameState.guessing) {
+    if (gameState && gameState.phase === "GUESSING") {
       setDefinitions(generateRandomOrderedDefinitions());
     }
-  }, [gameState.guessing]); //eslint-disable-line
+  }, [gameState.phase]); //eslint-disable-line
 
   useEffect(() => {
     socket.on("play again", (newGameState) => {
@@ -124,15 +124,14 @@ const Lobby = (props) => {
         </ul>
       </div>
       <div className="game-body">
-        {isHost && !gameState.started ? (
+        {isHost && gameState.phase === "PREGAME" ? (
           <button onClick={handleStartGame}>Start Game</button>
         ) : (
-          !gameState.started && <p>Waiting for host to start game...</p>
+          gameState.phase === "PREGAME" && (
+            <p>Waiting for host to start game...</p>
+          )
         )}
-        {/* {isHost && gameState.started && !gameState.guessing && (
-          <button onClick={handleStartGuessing}>Start guessing</button>
-        )} */}
-        {gameState && gameState.started && (
+        {gameState && gameState.phase === "WRITING" && (
           <>
             <div className="word-container">
               <h2 className="word">{gameState.word}</h2>
@@ -151,64 +150,60 @@ const Lobby = (props) => {
                 <button id="submit-definition">Submit</button>
               </form>
             )}
-            {gameState && gameState.started && gameState.guessing && !guessed && (
-              <div className="definitions-container">
-                <ul className="definitions">
-                  {definitions.map((def) => {
-                    return (
-                      <li
-                        key={def.id}
-                        id={def.id}
-                        className={
-                          currentSelection === def.id
-                            ? "definition selected"
-                            : "definition"
-                        }
-                        onClick={handleSelect}
-                      >
-                        {def.definition}
-                      </li>
-                    );
-                  })}
-                </ul>
-                <button
-                  disabled={!currentSelection}
-                  onClick={handleGuess}
-                  className="guess-button"
-                >
-                  Guess
-                </button>
-              </div>
-            )}
-            {gameState &&
-              gameState.started &&
-              gameState.guessing &&
-              guessed &&
-              !gameState.completed && <p>Waiting for everyone to guess...</p>}
-            {gameState && gameState.completed && (
-              <div className="results">
-                <div className="points">
-                  <h3>Points</h3>
-                  <ul>
-                    {gameState.players.map((player) => {
-                      return (
-                        <li
-                          key={player.id}
-                        >{`${player.username}: ${player.points} points`}</li>
-                      );
-                    })}
-                  </ul>
-                  {isHost && (
-                    <button onClick={handlePlayAgain}>Play again</button>
-                  )}
-                </div>
-                <div className="voting-results">
-                  <h3>Guesses</h3>
-                  <ul>{calculateGuesses()}</ul>
-                </div>
-              </div>
-            )}
           </>
+        )}
+        {gameState && gameState.phase === "GUESSING" && !guessed && (
+          <div className="definitions-container">
+            <ul className="definitions">
+              {definitions.map((def) => {
+                return (
+                  <li
+                    key={def.id}
+                    id={def.id}
+                    className={
+                      currentSelection === def.id
+                        ? "definition selected"
+                        : "definition"
+                    }
+                    onClick={handleSelect}
+                  >
+                    {def.definition}
+                  </li>
+                );
+              })}
+            </ul>
+            <button
+              disabled={!currentSelection}
+              onClick={handleGuess}
+              className="guess-button"
+            >
+              Guess
+            </button>
+          </div>
+        )}
+        {gameState && gameState.phase === "GUESSING" && guessed && (
+          <p>Waiting for everyone to guess...</p>
+        )}
+        {gameState && gameState.phase === "POSTGAME" && (
+          <div className="results">
+            <div className="points">
+              <h3>Points</h3>
+              <ul>
+                {gameState.players.map((player) => {
+                  return (
+                    <li
+                      key={player.id}
+                    >{`${player.username}: ${player.points} points`}</li>
+                  );
+                })}
+              </ul>
+              {isHost && <button onClick={handlePlayAgain}>Play again</button>}
+            </div>
+            <div className="voting-results">
+              <h3>Guesses</h3>
+              <ul>{calculateGuesses()}</ul>
+            </div>
+          </div>
         )}
       </div>
     </div>
