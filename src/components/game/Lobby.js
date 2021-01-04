@@ -131,11 +131,13 @@ const Lobby = (props) => {
             <p>Waiting for host to start game...</p>
           )
         )}
+        {gameState && gameState.word && (
+          <div className="word-container">
+            <h2 className="word">{gameState.word}</h2>
+          </div>
+        )}
         {gameState && gameState.phase === "WRITING" && (
           <>
-            <div className="word-container">
-              <h2 className="word">{gameState.word}</h2>
-            </div>
             {!submitted && (
               <form onSubmit={handleSubmit} className="definition-form">
                 <textarea
@@ -153,33 +155,35 @@ const Lobby = (props) => {
           </>
         )}
         {gameState && gameState.phase === "GUESSING" && !guessed && (
-          <div className="definitions-container">
-            <ul className="definitions">
-              {definitions.map((def) => {
-                return (
-                  <li
-                    key={def.id}
-                    id={def.id}
-                    className={
-                      currentSelection === def.id
-                        ? "definition selected"
-                        : "definition"
-                    }
-                    onClick={handleSelect}
-                  >
-                    {def.definition}
-                  </li>
-                );
-              })}
-            </ul>
-            <button
-              disabled={!currentSelection}
-              onClick={handleGuess}
-              className="guess-button"
-            >
-              Guess
-            </button>
-          </div>
+          <>
+            <div className="definitions-container">
+              <ul className="definitions">
+                {definitions.map((def) => {
+                  return (
+                    <li
+                      key={def.id}
+                      id={def.id}
+                      className={
+                        currentSelection === def.id
+                          ? "definition selected"
+                          : "definition"
+                      }
+                      onClick={handleSelect}
+                    >
+                      {def.definition}
+                    </li>
+                  );
+                })}
+              </ul>
+              <button
+                disabled={!currentSelection}
+                onClick={handleGuess}
+                className="guess-button"
+              >
+                Guess
+              </button>
+            </div>
+          </>
         )}
         {gameState && gameState.phase === "GUESSING" && guessed && (
           <p>Waiting for everyone to guess...</p>
